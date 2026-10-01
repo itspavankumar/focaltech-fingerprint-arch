@@ -1,12 +1,10 @@
-# Ignore makepkg build directories
+# Makepkg build directories
 pkg/
 src/
 
-# Ignore downloaded source archives
-*.tar.gz
-*.tar.xz
-*.zip
-*.bz2
+# Generated packages (keep source libfprint.pkg.tar.zst)
+libfprint-focaltech-*.pkg.tar.zst
 
-# Ignore any local bash history or environment files
+# Logs & temp files
+*.log
 .env
