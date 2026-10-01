@@ -31,8 +31,8 @@ Bus 003 Device 004: ID 2808:a658 Realtek USB2.0 Finger Print Bridge FocalTech Fi
 On a fresh Arch Linux installation, clone this repository and run the installer:
 
 ```bash
-git clone https://github.com/itspavankumar/2808-A658-fingerprint-arch-linux-driver.git
-cd 2808-A658-fingerprint-arch-linux-driver
+git clone https://github.com/itspavankumar/focaltech-fingerprint-arch.git
+cd focaltech-fingerprint-arch
 chmod +x install.sh
 ./install.sh
 ```
