@@ -4,31 +4,31 @@
 [![Compositor](https://img.shields.io/badge/Hyprland%20%7C%20Wayland-Ready-00bcd4?style=for-the-badge)](#)
 [![License](https://img.shields.io/badge/License-LGPL--2.1-blue?style=for-the-badge)](#)
 
-A working setup and automated installer to get **FocalTech fingerprint sensors (`USB ID 2808:A658`)** working seamlessly on **Arch Linux**, with full support for standalone Wayland compositors like **Hyprland**, as well as desktop environments (KDE, GNOME).
+A working setup and automated installer to get **FocalTech fingerprint sensors (USB ID 2808:A658)** working on **Arch Linux**, with support for standalone Wayland compositors like **Hyprland**, as well as desktop environments (KDE, GNOME).
 
 ---
 
-## 🖥 Compatible Hardware
+## Compatible Hardware
 
 | Device | USB ID | Status |
 |--------|--------|--------|
-| Asus laptops (Realtek / FocalTech sensor) | `2808:a658` | ✅ Confirmed working |
-| Other FocalTech readers | `2808:xxxx` | ⚠️ May work — verify with `lsusb` |
+| Asus laptops (Realtek / FocalTech sensor) | `2808:a658` | Confirmed working |
+| Other FocalTech readers | `2808:xxxx` | May work (verify with `lsusb`) |
 
 Verify your hardware with:
 ```bash
 lsusb | grep -i 2808
 ```
-You should see output similar to:
+Expected output:
 ```text
 Bus 003 Device 004: ID 2808:a658 Realtek USB2.0 Finger Print Bridge FocalTech Fingerprint Device
 ```
 
 ---
 
-## ⚡ Quick Start (Automated Installation)
+## Quick Start (Automated Installation)
 
-On a fresh Arch Linux installation, simply clone this repository and run the installer:
+On a fresh Arch Linux installation, clone this repository and run the installer:
 
 ```bash
 git clone https://github.com/itspavankumar/2808-A658-fingerprint-arch-linux-driver.git
@@ -39,7 +39,7 @@ chmod +x install.sh
 
 ### What `install.sh` does automatically:
 1. Detects and verifies the `2808:a658` USB fingerprint hardware.
-2. Installs required packages: `base-devel`, `git`, `patchelf`, `fprintd`.
+2. Installs required dependencies: `base-devel`, `git`, `patchelf`, `fprintd`.
 3. Patches Debian symbol versions (`LIBGUSB_0.1.0`) in the driver binary so it links dynamically without errors on modern Arch.
 4. Builds and installs a clean Arch package (`libfprint-focaltech`) that provides `libfprint` and `libfprint-2.so=2-64`.
 5. Adds Polkit permissions (`/etc/polkit-1/rules.d/50-fprintd.rules`) so users in the `wheel` group can enroll fingerprints without requiring a graphical polkit prompt.
@@ -49,9 +49,9 @@ chmod +x install.sh
 
 ---
 
-## 🖐 Enrolling Your Fingerprint
+## Enrolling Your Fingerprint
 
-Since standalone Wayland compositors (like Hyprland) don't have a GNOME Settings panel, enrollment is done via the CLI:
+Since standalone Wayland compositors (like Hyprland) do not have a GNOME Settings panel, enrollment is done via the CLI:
 
 ### 1. Enroll
 ```bash
@@ -72,9 +72,9 @@ Touch the sensor. You should see `Verify result: verify-match (done)`.
 
 ---
 
-## 🔐 Enabling Fingerprint Authentication
+## Enabling Fingerprint Authentication
 
-### 1. Enable for `sudo` in Terminal
+### 1. Enable for sudo in Terminal
 Edit `/etc/pam.d/sudo`:
 ```bash
 sudo nano /etc/pam.d/sudo
@@ -128,7 +128,7 @@ label {
 
 ---
 
-## 🛠 Manual Installation & Troubleshooting
+## Manual Installation & Troubleshooting
 
 <details>
 <summary><strong>Manual step-by-step installation without script</strong></summary>
@@ -171,7 +171,15 @@ sudo fprintd-enroll $USER
 </details>
 
 <details>
-<summary><strong>`fprintd.service: static unit` notice</strong></summary>
+<summary><strong>fprintd.service: static unit notice</strong></summary>
 
 `fprintd` is a D-Bus activated service on Arch Linux — it doesn't have an `[Install]` section because systemd automatically starts it on-demand whenever biometric auth is invoked. You don't need to enable it with `systemctl enable`.
 </details>
+
+---
+
+## Credits & Acknowledgements
+
+- **Meet Suthar ([@Meetsuthar32778](https://github.com/Meetsuthar32778))**: Original porter and maintainer of the FocalTech `2808:A658` driver package at [Meetsuthar32778/2808-A658-fingerprint-arch-linux-driver](https://github.com/Meetsuthar32778/2808-A658-fingerprint-arch-linux-driver).
+- **Pranshu Saxena ([@Theewebwizard](https://github.com/Theewebwizard))**: Contributor to initial Debian/Ubuntu installer scripts.
+- **The libfprint and fprintd projects**: Upstream fingerprint management and D-Bus daemon.
